@@ -1,0 +1,243 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE TABLE Textdatatypes
+    -> (
+    -> A char(10),
+    -> B varchar(10),
+    -> C text
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> CREATE DATABASE Datatype;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE Datatype;
+Database changed
+mysql> CREATE TABLE Textdatatypes
+    -> (
+    -> A char(10),
+    -> B varchar(10),
+    -> C text
+    -> );
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> DESCRIBE Textdatatypes;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| A     | char(10)    | YES  |     | NULL    |       |
+| B     | varchar(10) | YES  |     | NULL    |       |
+| C     | text        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),
+    -> INSERT INTO Textdatatypes VALUES ('45','45','Text data- Larger strings are accepted here');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Textdatatypes VALUES ('45','45','Text data- Larger strings are accep' at line 2
+mysql> INSERT INTO Textdatatypes VALUES ('45','45','Text data- Larger strings are accepted here')
+    -> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),
+    -> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are acc' at line 2
+mysql> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),
+    -> INSERT INTO Textdatatypes VALUES ('45','45','Text data- Larger strings are accepe');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Textdatatypes VALUES ('45','45','Text data- Larger strings are accep' at line 2
+mysql> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),
+    -> INSERT INTO Textdatatypes VALUES ('45','4','Text data- Larger strings are accepe');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Textdatatypes VALUES ('45','4','Text data- Larger strings are accepe' at line 2
+mysql> INSERT INTO Textdatatypes VALUES ('123','123','Text data- Larger strings are accepted here'),
+    ->  ('45','45','Text data- Larger strings are accepted here');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT*
+    ->   from Textdatatypes;
++------+------+---------------------------------------------+
+| A    | B    | C                                           |
++------+------+---------------------------------------------+
+| 123  | 123  | Text data- Larger strings are accepted here |
+| 45   | 45   | Text data- Larger strings are accepted here |
++------+------+---------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT lenght(A), lenght(b)
+    -> FROM Textdatatypes;
+ERROR 1305 (42000): FUNCTION datatype.lenght does not exist
+mysql> SELECT lenght(A), lenght(B)
+    ->  FROM Textdatatypes;
+ERROR 1305 (42000): FUNCTION datatype.lenght does not exist
+mysql> SELECT length(A), length(b) from TextDataTypes;
++-----------+-----------+
+| length(A) | length(b) |
++-----------+-----------+
+|         3 |         3 |
+|         2 |         2 |
++-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO Textdatatypes VALUES ('abcde','abcde','Text data- Larger strings are accepted here'),
+    ->  ('abcde','abcde','Text data- Larger strings are accepted here');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT length(A), length(b) from TextDataTypes;
++-----------+-----------+
+| length(A) | length(b) |
++-----------+-----------+
+|         3 |         3 |
+|         2 |         2 |
+|         5 |         5 |
+|         5 |         5 |
++-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Numdatatypes
+    -> (
+    -> A tinyint,
+    -> B smallint,
+    -> C mediumint,
+    -> D int,
+    -> E bigint,
+    -> F decimal(8,2),
+    -> G double(8,2),
+    -> H float
+    -> );
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> INSERT INTO Numdatatypes VALUES
+    -> (130,130,33456,333456,33333456,99999999.9,99999999.99,99999999.99);
+ERROR 1264 (22003): Out of range value for column 'A' at row 1
+mysql> INSERT INTO Numdatatypes VALUES
+    -> (110,130,33456,333456,33333456,999999.9,999999.99,999999.99);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT *
+    ->   FROM Numdatatypes;
++------+------+-------+--------+----------+-----------+-----------+---------+
+| A    | B    | C     | D      | E        | F         | G         | H       |
++------+------+-------+--------+----------+-----------+-----------+---------+
+|  110 |  130 | 33456 | 333456 | 33333456 | 999999.90 | 999999.99 | 1000000 |
++------+------+-------+--------+----------+-----------+-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE DateDataTypes
+    -> (
+    -> A date,
+    -> B datetime,
+    -> C timestamp,
+    -> D time);
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> INSERT INTO Numdatatypes VALUES
+    -> A date,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'A date,' at line 2
+mysql> INSERT INTO DateDataTypes VALUES
+    -> (Current_Date(),now(),now(),now());
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select *
+    -> from DateDataTypes;
++------------+---------------------+---------------------+----------+
+| A          | B                   | C                   | D        |
++------------+---------------------+---------------------+----------+
+| 2019-08-26 | 2019-08-26 19:24:42 | 2019-08-26 19:24:42 | 19:24:42 |
++------------+---------------------+---------------------+----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO DateDataTypes VALUES
+    -> ('2019-08-26','2019-08-26 10:30:23','20190826103023','10:30:23');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> select *
+    -> from DateDataTypes;
++------------+---------------------+---------------------+----------+
+| A          | B                   | C                   | D        |
++------------+---------------------+---------------------+----------+
+| 2019-08-26 | 2019-08-26 19:24:42 | 2019-08-26 19:24:42 | 19:24:42 |
+| 2019-08-26 | 2019-08-26 10:30:23 | 2019-08-26 10:30:23 | 10:30:23 |
++------------+---------------------+---------------------+----------+
+2 rows in set (0.00 sec)
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Datatypes
+ERROR 1049 (42000): Unknown database 'datatypes'
+mysql> use Datatypes;
+ERROR 1049 (42000): Unknown database 'datatypes'
+mysql> Show Databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| data               |
+| datatype           |
+| mydb               |
+| mysql              |
+| nicktam            |
+| patildata          |
+| performance_schema |
+| performatics       |
+| performaticss      |
+| rohit              |
+| test               |
+| txt                |
+| vita_db            |
++--------------------+
+14 rows in set (0.07 sec)
+
+mysql> USE Datatype;
+Database changed
+mysql> create table spldatatypes;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> create table spldatatypes(
+    -> ID int AUTO_INCREMENT primary key,
+    -> Membership ENUM('Silver','gold','diamond'),
+    -> Hobbies SET('Swimming','football','cricket')
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> Insert into spldatatypes(Membership,Hobbies)
+    -> Values
+    -> ('silver','football','cricket')
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 4
+mysql> Insert into spldatatypes(Membership,Hobbies)
+    -> Values
+    -> ('silver','football','cricket');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> Insert into spldatatypes(Membership,Hobbies)
+    -> Values
+    -> ('silver','football,cricket');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select*
+    -> from spldatatypes;
++----+------------+------------------+
+| ID | Membership | Hobbies          |
++----+------------+------------------+
+|  1 | Silver     | football,cricket |
++----+------------+------------------+
+1 row in set (0.00 sec)
+
+mysql>
