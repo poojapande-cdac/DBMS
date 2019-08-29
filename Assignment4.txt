@@ -1,0 +1,288 @@
+mysql> CREATE DATABASE Shopping;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW Shopping;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shopping' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| data               |
+| datatype           |
+| library            |
+| mydb               |
+| mysql              |
+| nicktam            |
+| patildata          |
+| performance_schema |
+| performatics       |
+| performaticss      |
+| rohit              |
+| shopping           |
+| test               |
+| txt                |
+| vita_db            |
++--------------------+
+16 rows in set (0.01 sec)
+
+mysql> USE Shopping;
+Database changed
+mysql> CREATE TABLE Salespeople
+    -> (
+    -> Snum int,
+    -> Sname varchar(20),
+    -> City varchar(30),
+    -> Comm decimal(2,2)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> DESCRIBE Salespeople;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Snum  | int(11)      | YES  |     | NULL    |       |
+| Sname | varchar(20)  | YES  |     | NULL    |       |
+| City  | varchar(30)  | YES  |     | NULL    |       |
+| Comm  | decimal(2,2) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> INSERT INTO Salespeople (
+    -> Snum,Sname,City,Comm) VALUES
+    -> (1001,'Peel','London',0.12);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT *
+    -> FROM Salespeople;
++------+-------+--------+------+
+| Snum | Sname | City   | Comm |
++------+-------+--------+------+
+| 1001 | Peel  | London | 0.12 |
++------+-------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO Salespeople (
+    -> Snum,Sname,City,Comm) VALUES
+    -> (1002,'Serres','San Jose',0.13),
+    -> (1004,'Motika','London',0.11),
+    -> (1007,'Rifkin','Barcelona',0.15),
+    -> (1003,'Axelrod','New York',0.10),
+    -> (1005,'Fran','London',0.26);
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT *
+    -> FROM Salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
+| 1005 | Fran    | London    | 0.26 |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Customers
+    -> (
+    -> Cnum int ,
+    -> Cname varchar(20),
+    -> City varchar(30),
+    -> Rating int,
+    -> Snum int);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> DESCRIBE Customers;;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Cnum   | int(11)     | YES  |     | NULL    |       |
+| Cname  | varchar(20) | YES  |     | NULL    |       |
+| City   | varchar(30) | YES  |     | NULL    |       |
+| Rating | int(11)     | YES  |     | NULL    |       |
+| Snum   | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+
+mysql> INSERT INTO Customers (Cnum,Cname,City,Rating,Snum)VALUES
+    -> (2001,'Hoffman','London',100,1001),
+    -> (2002,'Giovanni','Rome',200,1003),
+    -> (2003,'Liu','SanJose',200,1002),
+    -> (2004,'Grass','Berlin',300,1002),
+    -> (2006,'Clemens','london',100,1001),
+    -> (2008,'Cisneros','SanJose',300,1007),
+    -> (2007,'Pereira','Rome',100,1004);
+Query OK, 7 rows affected (0.05 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Select*
+    -> From Customers;
++------+----------+---------+--------+------+
+| Cnum | Cname    | City    | Rating | Snum |
++------+----------+---------+--------+------+
+| 2001 | Hoffman  | London  |    100 | 1001 |
+| 2002 | Giovanni | Rome    |    200 | 1003 |
+| 2003 | Liu      | SanJose |    200 | 1002 |
+| 2004 | Grass    | Berlin  |    300 | 1002 |
+| 2006 | Clemens  | london  |    100 | 1001 |
+| 2008 | Cisneros | SanJose |    300 | 1007 |
+| 2007 | Pereira  | Rome    |    100 | 1004 |
++------+----------+---------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> Create Table Orders(
+    -> Onum int,
+    -> AMT decimal(6,2),
+    -> Odate date,
+    -> Cnum int,
+    -> Snum int);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> Describe Orders;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Onum  | int(11)      | YES  |     | NULL    |       |
+| AMT   | decimal(6,2) | YES  |     | NULL    |       |
+| Odate | date         | YES  |     | NULL    |       |
+| Cnum  | int(11)      | YES  |     | NULL    |       |
+| Snum  | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> INSERT INTO Orders (Onum,AMT,Odate,Cnum,Snum)VALUES
+    -> (3003,767.19,'1996-03-10',2001,1001),
+    -> (3002,1900.10,'1996-03-10',2007,1004),
+    -> (3005,5160.45,'1996-03-10',2003,1002),
+    -> (3006,1098.16,'1996-03-10',2008,1007),
+    -> (3009,1713.23,'1996-04-10',2002,1003),
+    -> (3007,75.75,'1996-04-10',2002,1003),
+    -> (3008,4723.00,'1996-05-10',2006,1001),
+    -> (3010,1309.95,'1996-06-10',2004,1002),
+    -> (3011,9891.88,'1996-06-10',2006,1001);
+Query OK, 9 rows affected (0.04 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> Select*
+    -> From Orders;
+
++------+---------+------------+------+------+
+| Onum | AMT     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3003 |  767.19 | 1996-03-10 | 2001 | 1001 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3009 | 1713.23 | 1996-04-10 | 2002 | 1003 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| data               |
+| datatype           |
+| library            |
+| mydb               |
+| mysql              |
+| nicktam            |
+| patildata          |
+| performance_schema |
+| performatics       |
+| performaticss      |
+| rohit              |
+| shopping           |
+| test               |
+| txt                |
+| vita_db            |
++--------------------+
+16 rows in set (0.61 sec)
+
+mysql> Use Shopping;
+Database changed
+
+mysql> SELECT *
+    -> from Customers
+    -> WHERE RATING=100;
++------+---------+--------+--------+------+
+| Cnum | Cname   | City   | Rating | Snum |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London |    100 | 1001 |
+| 2006 | Clemens | london |    100 | 1001 |
+| 2007 | Pereira | Rome   |    100 | 1004 |
++------+---------+--------+--------+------+
+3 rows in set (0.07 sec)
+
+mysql> SELECT Cname
+    -> FROM Customers
+    -> WHERE City IS NULL;
+Empty set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM Orders
+    -> ORDER BY Cnum DESC;
++------+---------+------------+------+------+
+| Onum | AMT     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3009 | 1713.23 | 1996-04-10 | 2002 | 1003 |
+| 3003 |  767.19 | 1996-03-10 | 2001 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.04 sec)
+
+
+mysql> SELECT Cname
+    -> FROM Customers
+    -> WHERE City= 'SanJose' AND Rating >200;
++----------+
+| Cname    |
++----------+
+| Cisneros |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Sname,Comm
+    -> FROM Salespeople
+    -> WHERE City='London';
++--------+------+
+| Sname  | Comm |
++--------+------+
+| Peel   | 0.12 |
+| Motika | 0.11 |
+| Fran   | 0.26 |
++--------+------+
+3 rows in set (0.03 sec)
+
+
+mysql> Select*From Orders
+    -> Where Not(Odate ='1996-03-10' OR Snum>1006) And AMT>= 1500;
++------+---------+------------+------+------+
+| Onum | AMT     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3009 | 1713.23 | 1996-04-10 | 2002 | 1003 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+3 rows in set (0.00 sec)
+
+mysql>
