@@ -1,0 +1,585 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.5.61 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> Create Database Office;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> Show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| data               |
+| datatype           |
+| library            |
+| mydb               |
+| mysql              |
+| nicktam            |
+| office             |
+| patildata          |
+| performance_schema |
+| performatics       |
+| performaticss      |
+| rohit              |
+| shopping           |
+| test               |
+| txt                |
+| vita_db            |
++--------------------+
+17 rows in set (0.00 sec)
+
+mysql> USE Office;
+Database changed
+mysql> CREATE TABLE Location
+    -> (
+    ->   LocID int primary key,
+    ->   City varchar(10) not null,
+    ->   Addr varchar(20)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql>
+mysql> INSERT INTO Location VALUES
+    -> (1, 'Mumbai', 'MBP'),
+    -> (2, 'Bangalore', 'ITPL'),
+    -> (3, 'Pune', 'Hinje Wadi'),
+    -> (4, 'Delhi', 'Hinje'),
+    -> (5, 'Gurgaon', 'DLF 2'),
+    -> (6, 'Hyderabad', 'Hitech City')
+    -> (7, 'Mumbai', 'TCS');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(7, 'Mumbai', 'TCS')' at line 8
+mysql>
+mysql> INSERT INTO Location VALUES
+    -> (1, 'Mumbai', 'MBP'),
+    -> (2, 'Bangalore', 'ITPL'),
+    -> (3, 'Pune', 'Hinje Wadi'),
+    -> (4, 'Delhi', 'Hinje'),
+    -> (5, 'Gurgaon', 'DLF 2'),
+    -> (6, 'Hyderabad', 'Hitech City'),
+    -> (7, 'Mumbai', 'TCS');
+Query OK, 7 rows affected (0.03 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Select* From Location;
++-------+-----------+-------------+
+| LocID | City      | Addr        |
++-------+-----------+-------------+
+|     1 | Mumbai    | MBP         |
+|     2 | Bangalore | ITPL        |
+|     3 | Pune      | Hinje Wadi  |
+|     4 | Delhi     | Hinje       |
+|     5 | Gurgaon   | DLF 2       |
+|     6 | Hyderabad | Hitech City |
+|     7 | Mumbai    | TCS         |
++-------+-----------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Dept
+    -> (DeptID int primary key,
+    ->  DName varchar(10) not null,
+    ->  LocID int references Location(LocID)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO Dept VALUEs
+    -> (101, 'Sales', 1),
+    -> (102, 'HR', 3),
+    -> (103, 'Finance', 2),
+    -> (104, 'MKTG', 3),
+    -> (105, 'OPS', 4),
+    -> (106, 'IT', 4),
+    -> (107, 'Trvl Desk', NULL),
+    -> (108,'Electrical',7),
+    -> (109, 'telcom', NULL);
+Query OK, 9 rows affected (0.03 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> Select* From Dept;
++--------+------------+-------+
+| DeptID | DName      | LocID |
++--------+------------+-------+
+|    101 | Sales      |     1 |
+|    102 | HR         |     3 |
+|    103 | Finance    |     2 |
+|    104 | MKTG       |     3 |
+|    105 | OPS        |     4 |
+|    106 | IT         |     4 |
+|    107 | Trvl Desk  |  NULL |
+|    108 | Electrical |     7 |
+|    109 | telcom     |  NULL |
++--------+------------+-------+
+9 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Emp
+    -> (EmpID int primary key,
+    ->  FName varchar(10) not null,
+    ->  LName varchar(10) not null,
+    ->  DeptID int references Dept(DeptID),
+    ->  MgrID int references Emp(EmpID),
+    ->  Salary decimal(10, 2)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql>
+mysql> INSERT INTO Emp VALUES
+    -> (1001, 'Steven', 'King', 105, NULL, 50000),
+    -> (1003, 'Nancy', 'Greenberg', 102, 1001, 35000),
+    -> (1002, 'Neena', 'Kochhar', 105, 1003, 40000),
+    -> (1004, 'Andrew', 'Lusk', 101, 1002, 15000),
+    -> (1006, 'Andy', 'Hillman', 105, 1001, 30000),
+    -> (1005, 'Pamela', 'Davis', NULL, 1002, 14000),
+    -> (1007, 'Rene', 'Lopez', 105, 1001, 18000),
+    -> (1009, 'Sue', 'Fisher', 105, 1002, 11000),
+    -> (1009, 'Sam', 'Richer', 106, 1001, 11000),
+    -> (1008, 'Tanya', 'Rff', 105, 1001, 10000);
+ERROR 1062 (23000): Duplicate entry '1009' for key 'PRIMARY'
+mysql>
+mysql> INSERT INTO Emp VALUES
+    -> (1001, 'Steven', 'King', 105, NULL, 50000),
+    -> (1003, 'Nancy', 'Greenberg', 102, 1001, 35000),
+    -> (1002, 'Neena', 'Kochhar', 105, 1003, 40000),
+    -> (1004, 'Andrew', 'Lusk', 101, 1002, 15000),
+    -> (1006, 'Andy', 'Hillman', 105, 1001, 30000),
+    -> (1005, 'Pamela', 'Davis', NULL, 1002, 14000),
+    -> (1007, 'Rene', 'Lopez', 105, 1001, 18000),
+    -> (1008, 'Sue', 'Fisher', 105, 1002, 11000),
+    -> (1009, 'Sam', 'Richer', 106, 1001, 11000),
+    -> (1010, 'Tanya', 'Rff', 105, 1001, 10000);
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select* From Emp;
++-------+--------+-----------+--------+-------+----------+
+| EmpID | FName  | LName     | DeptID | MgrID | Salary   |
++-------+--------+-----------+--------+-------+----------+
+|  1001 | Steven | King      |    105 |  NULL | 50000.00 |
+|  1002 | Neena  | Kochhar   |    105 |  1003 | 40000.00 |
+|  1003 | Nancy  | Greenberg |    102 |  1001 | 35000.00 |
+|  1004 | Andrew | Lusk      |    101 |  1002 | 15000.00 |
+|  1005 | Pamela | Davis     |   NULL |  1002 | 14000.00 |
+|  1006 | Andy   | Hillman   |    105 |  1001 | 30000.00 |
+|  1007 | Rene   | Lopez     |    105 |  1001 | 18000.00 |
+|  1008 | Sue    | Fisher    |    105 |  1002 | 11000.00 |
+|  1009 | Sam    | Richer    |    106 |  1001 | 11000.00 |
+|  1010 | Tanya  | Rff       |    105 |  1001 | 10000.00 |
++-------+--------+-----------+--------+-------+----------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID;
++------------+-----------+------------+
+| DName      | City      | Addr       |
++------------+-----------+------------+
+| Sales      | Mumbai    | MBP        |
+| HR         | Pune      | Hinje Wadi |
+| Finance    | Bangalore | ITPL       |
+| MKTG       | Pune      | Hinje Wadi |
+| OPS        | Delhi     | Hinje      |
+| IT         | Delhi     | Hinje      |
+| Electrical | Mumbai    | TCS        |
++------------+-----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT Dname, CONCAT(e.FName, ' ', e.LName) AS Name,
+    ->   FROM Emp INNER JOIN
+    ->        Dept
+    ->     ON Emp.DeptID = Dept.DeptID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM Emp INNER JOIN
+       Dept
+    ON Emp.DeptID = Dept.DeptID' at line 2
+mysql> SELECT Dname, CONCAT(FName, ' ', LName) AS Name,
+    ->   FROM Emp INNER JOIN
+    ->        Dept
+    ->     ON Emp.DeptID = Dept.DeptID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM Emp INNER JOIN
+       Dept
+    ON Emp.DeptID = Dept.DeptID' at line 2
+mysql>
+mysql> SELECT Dname, CONCAT(FName, ' ', LName) AS Name,
+    ->   FROM Dept INNER JOIN
+    ->      Emp
+    ->     ON Dept.DeptID= Emp.DeptID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM Dept INNER JOIN
+     Emp
+    ON Dept.DeptID= Emp.DeptID' at line 2
+mysql> SELECT Dname, CONCAT(FName, ' ', LName) AS Name
+    ->   FROM Dept INNER JOIN
+    ->      Emp
+    ->     ON Dept.DeptID= Emp.DeptID;
++-------+-----------------+
+| Dname | Name            |
++-------+-----------------+
+| OPS   | Steven King     |
+| OPS   | Neena Kochhar   |
+| HR    | Nancy Greenberg |
+| Sales | Andrew Lusk     |
+| OPS   | Andy Hillman    |
+| OPS   | Rene Lopez      |
+| OPS   | Sue Fisher      |
+| IT    | Sam Richer      |
+| OPS   | Tanya Rff       |
++-------+-----------------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept LEFT OUTER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID;
++------------+-----------+------------+
+| DName      | City      | Addr       |
++------------+-----------+------------+
+| Sales      | Mumbai    | MBP        |
+| HR         | Pune      | Hinje Wadi |
+| Finance    | Bangalore | ITPL       |
+| MKTG       | Pune      | Hinje Wadi |
+| OPS        | Delhi     | Hinje      |
+| IT         | Delhi     | Hinje      |
+| Trvl Desk  | NULL      | NULL       |
+| Electrical | Mumbai    | TCS        |
+| telcom     | NULL      | NULL       |
++------------+-----------+------------+
+9 rows in set (0.01 sec)
+
+mysql>
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept  OUTER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OUTER JOIN
+       Location
+    ON Dept.LocID = Location.LocID' at line 2
+mysql>
+mysql> SELECT DName, City, Addr
+    ->   FROM Location RIGHT OUTER JOIN Dept
+    ->     ON Dept.LocID = Location.LocID;
++------------+-----------+------------+
+| DName      | City      | Addr       |
++------------+-----------+------------+
+| Sales      | Mumbai    | MBP        |
+| HR         | Pune      | Hinje Wadi |
+| Finance    | Bangalore | ITPL       |
+| MKTG       | Pune      | Hinje Wadi |
+| OPS        | Delhi     | Hinje      |
+| IT         | Delhi     | Hinje      |
+| Trvl Desk  | NULL      | NULL       |
+| Electrical | Mumbai    | TCS        |
+| telcom     | NULL      | NULL       |
++------------+-----------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept RIGHT OUTER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE DName IS NULL;
++-------+-----------+-------------+
+| DName | City      | Addr        |
++-------+-----------+-------------+
+| NULL  | Gurgaon   | DLF 2       |
+| NULL  | Hyderabad | Hitech City |
++-------+-----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept LEFT OUTER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City IS NULL;
++-----------+------+------+
+| DName     | City | Addr |
++-----------+------+------+
+| Trvl Desk | NULL | NULL |
+| telcom    | NULL | NULL |
++-----------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City = 'Gurgaon';
+Empty set (0.00 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City = 'Mumbai' And 'Pune';
+Empty set, 1 warning (0.01 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City = 'Mumbai' Or 'Pune';
++------------+--------+------+
+| DName      | City   | Addr |
++------------+--------+------+
+| Sales      | Mumbai | MBP  |
+| Electrical | Mumbai | TCS  |
++------------+--------+------+
+2 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City = 'Mumbai' And Add = 'Tcs';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Add = 'Tcs'' at line 5
+mysql> SELECT DName, City, Addr
+    ->   FROM Dept INNER JOIN
+    ->        Location
+    ->     ON Dept.LocID = Location.LocID
+    ->   WHERE City = 'Mumbai' And  Addr= 'Tcs';
++------------+--------+------+
+| DName      | City   | Addr |
++------------+--------+------+
+| Electrical | Mumbai | TCS  |
++------------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DName, FName, LName, City, Addr
+    ->   FROM Dept INNER JOIN Location
+    ->     ON Dept.LocID = Location.LocID
+    ->     INNER JOIN Emp
+    ->     ON Dept.DeptID = Emp.DeptID;
++-------+--------+-----------+--------+------------+
+| DName | FName  | LName     | City   | Addr       |
++-------+--------+-----------+--------+------------+
+| OPS   | Steven | King      | Delhi  | Hinje      |
+| OPS   | Neena  | Kochhar   | Delhi  | Hinje      |
+| HR    | Nancy  | Greenberg | Pune   | Hinje Wadi |
+| Sales | Andrew | Lusk      | Mumbai | MBP        |
+| OPS   | Andy   | Hillman   | Delhi  | Hinje      |
+| OPS   | Rene   | Lopez     | Delhi  | Hinje      |
+| OPS   | Sue    | Fisher    | Delhi  | Hinje      |
+| IT    | Sam    | Richer    | Delhi  | Hinje      |
+| OPS   | Tanya  | Rff       | Delhi  | Hinje      |
++-------+--------+-----------+--------+------------+
+9 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT DName,
+    ->        CONCAT(FName, ' ', LName) AS Name,
+    ->        City, Addr
+    ->   FROM Dept INNER JOIN Location
+    ->     ON Dept.LocID = Location.LocID
+    ->     INNER JOIN Emp
+    ->     ON Dept.DeptID = Emp.DeptID;
++-------+-----------------+--------+------------+
+| DName | Name            | City   | Addr       |
++-------+-----------------+--------+------------+
+| OPS   | Steven King     | Delhi  | Hinje      |
+| OPS   | Neena Kochhar   | Delhi  | Hinje      |
+| HR    | Nancy Greenberg | Pune   | Hinje Wadi |
+| Sales | Andrew Lusk     | Mumbai | MBP        |
+| OPS   | Andy Hillman    | Delhi  | Hinje      |
+| OPS   | Rene Lopez      | Delhi  | Hinje      |
+| OPS   | Sue Fisher      | Delhi  | Hinje      |
+| IT    | Sam Richer      | Delhi  | Hinje      |
+| OPS   | Tanya Rff       | Delhi  | Hinje      |
++-------+-----------------+--------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT d.DName,
+    ->        CONCAT(e.FName, ' ', e.LName) AS Name,
+    ->        l.City, l.Addr
+    ->   FROM Dept d INNER JOIN Location l
+    ->     ON d.LocID = l.LocID
+    ->     INNER JOIN Emp e
+    ->     ON d.DeptID = e.DeptID;
++-------+-----------------+--------+------------+
+| DName | Name            | City   | Addr       |
++-------+-----------------+--------+------------+
+| OPS   | Steven King     | Delhi  | Hinje      |
+| OPS   | Neena Kochhar   | Delhi  | Hinje      |
+| HR    | Nancy Greenberg | Pune   | Hinje Wadi |
+| Sales | Andrew Lusk     | Mumbai | MBP        |
+| OPS   | Andy Hillman    | Delhi  | Hinje      |
+| OPS   | Rene Lopez      | Delhi  | Hinje      |
+| OPS   | Sue Fisher      | Delhi  | Hinje      |
+| IT    | Sam Richer      | Delhi  | Hinje      |
+| OPS   | Tanya Rff       | Delhi  | Hinje      |
++-------+-----------------+--------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(emp.FName, ' ',
+    ->               emp.LName) AS EmpName,
+    -> CONCAT(mgr.FName, ' ',
+    ->               mgr.LName) AS MgrNAme
+    ->   FROM Emp emp INNER JOIN Emp mgr
+    ->     ON emp.MgrID = mgr.EmpID;
++-----------------+-----------------+
+| EmpName         | MgrNAme         |
++-----------------+-----------------+
+| Neena Kochhar   | Nancy Greenberg |
+| Nancy Greenberg | Steven King     |
+| Andrew Lusk     | Neena Kochhar   |
+| Pamela Davis    | Neena Kochhar   |
+| Andy Hillman    | Steven King     |
+| Rene Lopez      | Steven King     |
+| Sue Fisher      | Neena Kochhar   |
+| Sam Richer      | Steven King     |
+| Tanya Rff       | Steven King     |
++-----------------+-----------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(emp.FName, ' ',
+    ->               emp.LName) AS EmpName,
+    -> CONCAT(mgr.FName, ' ',
+    ->               mgr.LName) AS MgrNAme
+    ->   FROM Emp emp LEFT OUTER JOIN Emp mgr
+    ->     ON emp.MgrID = mgr.EmpID;
++-----------------+-----------------+
+| EmpName         | MgrNAme         |
++-----------------+-----------------+
+| Steven King     | NULL            |
+| Neena Kochhar   | Nancy Greenberg |
+| Nancy Greenberg | Steven King     |
+| Andrew Lusk     | Neena Kochhar   |
+| Pamela Davis    | Neena Kochhar   |
+| Andy Hillman    | Steven King     |
+| Rene Lopez      | Steven King     |
+| Sue Fisher      | Neena Kochhar   |
+| Sam Richer      | Steven King     |
+| Tanya Rff       | Steven King     |
++-----------------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(emp.FName, ' ',
+    ->               emp.LName) AS EmpName,
+    -> CONCAT(mgr.FName, ' ',
+    ->               mgr.LName) AS MgrNAme
+    ->   FROM Emp emp LEFT OUTER JOIN Emp mgr
+    ->     ON emp.MgrID = mgr.EmpID
+    -> WHERE emp.MgrID IS NULL;
++-------------+---------+
+| EmpName     | MgrNAme |
++-------------+---------+
+| Steven King | NULL    |
++-------------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE Salary = MAX(Salary);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE Salary = (SELECT MAX(Salary)
+    ->     FROM Emp
+    ->  );
++-------------+
+| EmpName     |
++-------------+
+| Steven King |
++-------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE Salary = (SELECT MAX(Salary)
+    ->     FROM Emp
+    ->                     WHERE Salary <
+    ->                     (
+    ->                       SELECT MAX(Salary)
+    -> FROM Emp
+    ->     )
+    ->  );
++---------------+
+| EmpName       |
++---------------+
+| Neena Kochhar |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE Salary = (
+    ->    SELECT Salary
+    ->                 FROM Emp
+    ->      ORDER BY Salary DESC
+    ->      LIMIT 1, 1
+    ->   );
++---------------+
+| EmpName       |
++---------------+
+| Neena Kochhar |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->                 FROM Emp
+    ->      ORDER BY Salary DESC
+    ->      LIMIT 3, 1;
++--------------+
+| EmpName      |
++--------------+
+| Andy Hillman |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->                 FROM Emp
+    ->      ORDER BY Salary DESC
+    ->      LIMIT 3, 1;
++--------------+
+| EmpName      |
++--------------+
+| Andy Hillman |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE MgrID = (SELECT MgrID
+    ->    FROM Emp
+    ->    WHERE FName = 'Andy'
+    ->                      AND LName = 'Hillman'
+    ->                 );
++-----------------+
+| EmpName         |
++-----------------+
+| Nancy Greenberg |
+| Andy Hillman    |
+| Rene Lopez      |
+| Sam Richer      |
+| Tanya Rff       |
++-----------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(FName, ' ', LName) AS EmpName
+    ->   FROM Emp
+    ->   WHERE MgrID = (SELECT MgrID
+    ->    FROM Emp
+    ->    WHERE FName = 'Andy'
+    ->                      AND LName = 'Hillman'
+    ->                 )
+    ->  AND NOT (FName = 'Andy'
+    ->   AND LName = 'Hillman');
++-----------------+
+| EmpName         |
++-----------------+
+| Nancy Greenberg |
+| Rene Lopez      |
+| Sam Richer      |
+| Tanya Rff       |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql>
